@@ -21,7 +21,8 @@ async def info(ctx):
 @bot.command()
 async def ayuda(ctx):
     await ctx.send('Hola, podes usar los siguientes comandos en el chat:')
-    await ctx.send('!iniciativas: Para acceder a la lista de tareas que estamos haciendo')
+    await ctx.send('!colaborar: Si queres sumarte a los colaboradores.')
+    await ctx.send('!iniciativas: Para acceder a la lista de ')
     await ctx.send('!web: Es nuestra web oficial.')
     await ctx.send('!git: Para acceder a nuestro repositorio de codigo.')
     await ctx.send('!rank: Para ver como estas rankeado segun tu participacion.')
