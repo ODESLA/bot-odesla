@@ -22,7 +22,7 @@ async def info(ctx):
 async def ayuda(ctx):
     await ctx.send('Hola, podes usar los siguientes comandos en el chat:')
     await ctx.send('!colaborar: Si queres sumarte a los colaboradores.')
-    await ctx.send('!iniciativas: Para acceder a la lista de ')
+    await ctx.send('!iniciativas: Para acceder a la lista de iniciativas. ')
     await ctx.send('!web: Es nuestra web oficial.')
     await ctx.send('!git: Para acceder a nuestro repositorio de codigo.')
     await ctx.send('!rank: Para ver como estas rankeado segun tu participacion.')
@@ -69,4 +69,4 @@ async def git(ctx):
 async def on_ready():
     print('READY')
 
-bot.run('credenciales')
+bot.run('ODAyNTc3ODk1MjU0OTE3MTQy.YAxQ6Q.si00ItXmvZcXoeGFdK8NAMAYAMA')

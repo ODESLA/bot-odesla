@@ -1,0 +1,6 @@
+context_path: odesla_bot.run.ProjectContext
+project_name: "odesla-bot"
+project_version: "0.16.6"
+package_name: "odesla_bot"
+hooks:
+  - odesla_bot.hooks.project_hooks
