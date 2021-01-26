@@ -35,8 +35,7 @@ from kedro.io import DataCatalog
 from kedro.pipeline import Pipeline
 from kedro.versioning import Journal
 
-from odesla_bot.pipelines import data_engineering as de
-from odesla_bot.pipelines import data_science as ds
+from odesla_bot.pipelines import main_odesla_bot as bot
 
 
 class ProjectHooks:
@@ -48,13 +47,11 @@ class ProjectHooks:
             A mapping from a pipeline name to a ``Pipeline`` object.
 
         """
-        data_engineering_pipeline = de.create_pipeline()
-        data_science_pipeline = ds.create_pipeline()
+        main_odesla_bot = bot.create_pipeline()
 
         return {
-            "de": data_engineering_pipeline,
-            "ds": data_science_pipeline,
-            "__default__": data_engineering_pipeline + data_science_pipeline,
+            "bot": main_odesla_bot,
+            "__default__": main_odesla_bots,
         }
 
     @hook_impl
