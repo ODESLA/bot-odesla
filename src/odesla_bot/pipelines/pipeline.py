@@ -25,7 +25,20 @@
 #
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""odesla-bot
+
+"""Example code for the nodes in the example pipeline. This code is meant
+just for illustrating basic Kedro features.
+
+Delete this when you start working on your own Kedro project.
 """
 
-__version__ = "0.1"
+from kedro.pipeline import Pipeline, node
+
+from odesla_bot.pipelines.nodes import run_bot_odesla
+
+def create_pipeline(**kwargs):
+    return Pipeline(
+        [
+            node(run_bot_odesla)
+        ]
+    )

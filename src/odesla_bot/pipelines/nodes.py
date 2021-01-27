@@ -45,11 +45,16 @@ import datetime
 from urllib import parse, request
 import re
 
+from kedro.config import ConfigLoader
+
+conf_paths = ["conf/base", "conf/local"]
+conf_loader = ConfigLoader(conf_paths)
+credentials = conf_loader.get("credentials*", "credentials*/**")
+
 
 def run_bot_odesla():
 
     bot = commands.Bot(command_prefix='!', description="Bot de ODESLA")
-
 
     @bot.command()
     async def info(ctx):
@@ -109,7 +114,7 @@ def run_bot_odesla():
         await ctx.send('https://github.com/ODSL-oficial')
 
 
-    bot.run('key_bot')
+    bot.run(credentials['bot_key']['key_bot'])
 
 
 run_bot_odesla()

@@ -30,13 +30,14 @@
 from pathlib import Path
 
 from kedro.framework.context import KedroContext, load_package_context
-
+from odesla_bot.pipelines.pipeline import create_pipeline
 
 class ProjectContext(KedroContext):
     """Users can override the remaining methods from the parent class here,
     or create new ones (e.g. as required by plugins)
     """
-
+    def _get_pipelines(self) -> Dict[str, Pipeline]:
+        return create_pipelines()
 
 def run_package():
     # Entry point for running a Kedro project packaged with `kedro package`
