@@ -119,7 +119,7 @@ def run_bot_odesla():
 
     @bot.command()
     async def git(ctx):
-        await ctx.send("https://github.com/ODSL-oficial")
+        await ctx.send("https://github.com/ODESLA/opendata")
 
     @bot.command()
     @commands.is_owner()
