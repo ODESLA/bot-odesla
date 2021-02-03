@@ -40,27 +40,31 @@ import numpy as np
 import pandas as pd
 import discord
 from discord.ext import commands
+from mee6_py_api import API
 import datetime
+
+from .utils import LoadCredentials, ConnectDrive
 
 from urllib import parse, request
 import re
 
-from kedro.config import ConfigLoader
-
-conf_paths = ["conf/base", "conf/local"]
-conf_loader = ConfigLoader(conf_paths)
-credentials = conf_loader.get("credentials*", "credentials*/**")
+# Load Credentials
+client = LoadCredentials()
+credentials = client.credentials
 
 
 def run_bot_odesla():
 
-    bot = commands.Bot(command_prefix='!', description="Bot de ODESLA")
+    bot = commands.Bot(command_prefix="!", description="Bot de ODESLA")
 
     @bot.command()
     async def info(ctx):
-        embed = discord.Embed(title=f"{ctx.guild.name}", 
-        descripcion='Test',timestamp=datetime.datetime.utcnow(), 
-        color=discord.Color.blue())
+        embed = discord.Embed(
+            title=f"{ctx.guild.name}",
+            descripcion="Test",
+            timestamp=datetime.datetime.utcnow(),
+            color=discord.Color.blue(),
+        )
         embed.add_field(name="1", value=f"{ctx.guild.created_at}")
         embed.add_field(name="2", value=f"{ctx.guild.created_at}")
         embed.add_field(name="3", value=f"{ctx.guild.created_at}")
@@ -68,53 +72,77 @@ def run_bot_odesla():
 
     @bot.command()
     async def ayuda(ctx):
-        await ctx.send('Hola, podes usar los siguientes comandos en el chat:')
-        await ctx.send('!iniciativas: Para acceder a la lista de iniciativas. ')
-        await ctx.send('!colaborar: Si queres sumarte a los colaboradores.')
-        await ctx.send('!web: Es nuestra web oficial.')
-        await ctx.send('!git: Para acceder a nuestro repositorio de codigo.')
-        await ctx.send('!rank: Para ver como estas rankeado segun tu participacion.')
-        await ctx.send('!levels: Para ver el ranking con todos los participantes.')
-        await ctx.send('Envianos tu consulta al canal #│🤔│consultas')
-
+        await ctx.send("Hola, podes usar los siguientes comandos en el chat:")
+        await ctx.send("!iniciativas: Para acceder a la lista de iniciativas. ")
+        await ctx.send("!colaborar: Si queres sumarte a los colaboradores.")
+        await ctx.send("!web: Es nuestra web oficial.")
+        await ctx.send("!git: Para acceder a nuestro repositorio de codigo.")
+        await ctx.send("!rank: Para ver como estas rankeado segun tu participacion.")
+        await ctx.send("!levels: Para ver el ranking con todos los participantes.")
+        await ctx.send("Envianos tu consulta al canal #│🤔│consultas")
 
     @bot.command()
     async def web(ctx):
-        embed = discord.Embed(title="Te invitamos a visitar nuestra web", 
-        url="www.odesla.org",
-        descripcion='ODESLA - Comunidad de Cientificos de Datos Latinos', 
-        color=discord.Color.orange())
+        embed = discord.Embed(
+            title="Te invitamos a visitar nuestra web",
+            url="www.odesla.org",
+            descripcion="ODESLA - Comunidad de Cientificos de Datos Latinos",
+            color=discord.Color.orange(),
+        )
         await ctx.send(embed=embed)
-
 
     @bot.command()
     async def iniciativas(ctx):
-        embed = discord.Embed(title="Iniciativas actuales en ODESLA", 
-        url="https://docs.google.com/spreadsheets/d/1b_rVXLIuktHJR3u5fEtH2nIswTUPeKaDdXPu6gLWjc0/edit?usp=sharing",
-        description='En este documento están todas las iniciativas que vamos cargando. \
+        embed = discord.Embed(
+            title="Iniciativas actuales en ODESLA",
+            url="https://docs.google.com/spreadsheets/d/1b_rVXLIuktHJR3u5fEtH2nIswTUPeKaDdXPu6gLWjc0/edit?usp=sharing",
+            description="En este documento están todas las iniciativas que vamos cargando. \
             Hay un identificador numérico (Numero en la primer columna) que te permite hacer consultas más fácilmente \
             en el canal #│🤔│consultas. Pega el identificador numérico junto a tu pregunta: Ejemplo: 2101001 - Quiero saber  \
             mas sobre la tarea del dashboad. \
-            ¡Toda colaboración se agradece!',
-        color=discord.Color.orange())
+            ¡Toda colaboración se agradece!",
+            color=discord.Color.orange(),
+        )
         await ctx.send(embed=embed)
 
     @bot.command()
     async def colaborar(ctx):
-        embed = discord.Embed(title="Registrate acá", 
-        url="https://docs.google.com/forms/d/e/1FAIpQLSf-AOsILx4A3Xi_v_PInqQRD5pLFnvoH5zJR5asY-I_xc2KDA/viewform",
-        description='En este doc podes inscribirte como colaborador, con ese registro pasas a ser parte de los \
+        embed = discord.Embed(
+            title="Registrate acá",
+            url="https://docs.google.com/forms/d/e/1FAIpQLSf-AOsILx4A3Xi_v_PInqQRD5pLFnvoH5zJR5asY-I_xc2KDA/viewform",
+            description="En este doc podes inscribirte como colaborador, con ese registro pasas a ser parte de los \
             colaboradores de ODESLA. Una vez registrado, cambiaremos tus rol de discord a COLABORADOR y vas a poder acceder a un canal de \
-            coordinación para ir avanzando en las iniciativas. Cualquier duda escribinos en #│🤔│consultas',
-        color=discord.Color.orange())
+            coordinación para ir avanzando en las iniciativas. Cualquier duda escribinos en #│🤔│consultas",
+            color=discord.Color.orange(),
+        )
         await ctx.send(embed=embed)
 
     @bot.command()
     async def git(ctx):
-        await ctx.send('https://github.com/ODSL-oficial')
+        await ctx.send("https://github.com/ODSL-oficial")
 
+    @bot.command()
+    @commands.is_owner()
+    async def shutdown(ctx):
+        """async function to shutdown the bot"""
+        await ctx.bot.logout()
 
-    bot.run(credentials['bot_key']['key_bot'])
+    @bot.command()
+    @commands.is_owner()
+    async def save_leaderboard(ctx):
+        """async function to save the MEE6 leaderboard into a google spreadsheet"""
+
+        # Connect and retrieve information from MEE6 Leaderboard
+        mee6api = API(credentials["bot_key"]["key_api"])
+        leaderboard_page = await mee6api.levels.get_leaderboard_page(0)
+
+        # Connect to Google Drive
+        g_client = ConnectDrive()
+        g_client.save_leaderboard(leaderboard_page)
+
+        await ctx.send("Saved")
+
+    bot.run(credentials["bot_key"]["key_bot"])
 
 
 run_bot_odesla()
