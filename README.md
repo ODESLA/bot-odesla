@@ -15,6 +15,24 @@ In order to get the best out of the template:
 * Don't commit data to your repository
 * Don't commit any credentials or your local configuration to your repository. Keep all your credentials and local configuration in `conf/local/`
 
+## Git guideline
+
+For contributing to this repository you'll need to follow this steps:
+
+1) Fork this repository to your personal github account.
+2) Clone the forked repository to your local machine
+3) Set up the upstream and downstream urls. For that you can run the following commands
+```
+git remote ser-url origin https://github.com/ODESLA/bot-odesla    
+```
+
+```
+git remote ser-url --push origin https://github.com/<your github account>/bot-odesla    
+```
+
+After that run ``git remote -v`` and check that you are fetching from the ODESLA repository 
+and pushing to your private repository.
+
 ## How to install dependencies
 
 Declare any dependencies in `src/requirements.txt` for `pip` installation and `src/environment.yml` for `conda` installation.

@@ -107,6 +107,12 @@ webencodings==0.5.1       # via bleach
 wheel==0.32.2             # via -r C:\Users\carlo\OneDrive\Documentos\odesla\bot-odesla\src\requirements.in
 whichcraft==0.6.1         # via cookiecutter
 widgetsnbextension==3.5.1  # via ipywidgets
+#
+# Bot Requirements:
+discord.py == 1.6.0
+mee6-py-api == 0.0.1
+oauth2client >= 4.1.3
+gspread >= 3.6.0
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
