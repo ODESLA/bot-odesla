@@ -17,8 +17,8 @@ In order to get the best out of the template:
 
 ## Installing Kedro
 
-It's highly recomendable that you install kedro inside a conda or python environment.
-Kedro can be easily install through pip.
+It's highly recommendable that you install kedro inside a conda or python environment.
+Kedro can be easily installed through pip.
 
 ```
 pip install kedro==0.16.6
