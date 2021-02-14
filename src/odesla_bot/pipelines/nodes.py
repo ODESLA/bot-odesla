@@ -85,7 +85,7 @@ def run_bot_odesla():
     async def web(ctx):
         embed = discord.Embed(
             title="Te invitamos a visitar nuestra web",
-            url="www.odesla.org",
+            url="https://www.odesla.org",
             descripcion="ODESLA - Comunidad de Cientificos de Datos Latinos",
             color=discord.Color.orange(),
         )

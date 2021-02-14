@@ -22,6 +22,9 @@ logs/**
 # also keep the example dataset
 !data/01_raw/iris.csv
 
+# ignore requirements.txt
+requirements.txt
+
 
 ##########################
 # Common files
