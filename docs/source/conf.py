@@ -54,9 +54,9 @@ from odesla_bot import __version__ as release
 
 # -- Project information -----------------------------------------------------
 
-project = "odesla_bot"
-copyright = "2020, QuantumBlack Visual Analytics Limited"
-author = "QuantumBlack"
+project = "ODESLA Bot"
+copyright = "2021, ODESLA"
+author = "ODESLA"
 
 # The short X.Y version.
 version = re.match(r"^([0-9]+\.[0-9]+).*", release).group(1)
@@ -121,7 +121,7 @@ pygments_style = "sphinx"
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx_rtd_theme"
+html_theme = "alabaster"
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
